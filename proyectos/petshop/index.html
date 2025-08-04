@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetShop - Tienda de Mascotas</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+</head>
+<body class="bg-light">
+  <!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="images/petlogo.png" alt="Logo" width="40" class="me-1">
+        <span class="fw-bold fs-4" style="letter-spacing:1px;">PetShop</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav align-items-center gap-lg-2 gap-1 mb-2 mb-lg-0 me-auto">
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold" href="#perros">Perros</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold" href="#gatos">Gatos</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold" href="#aves">Aves</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold" href="#pequenos">Pequeños Animales</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold" href="#peces">Peces</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold d-flex align-items-center gap-1" href="#cuenta" id="btn-cuenta"><i class="bi bi-person"></i> Mi Cuenta</a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold d-flex align-items-center gap-1 position-relative" href="carrito.html"><i class="bi bi-cart"></i> Carrito <span class="badge bg-primary position-absolute top-0 start-100 translate-middle">0</span></a></li>
+          <li class="nav-item"><a class="nav-link px-3 rounded-pill fw-semibold d-flex align-items-center gap-1" href="#favoritos" id="btn-favoritos"><i class="bi bi-heart"></i> Favoritos <span class="badge bg-danger d-none" id="badge-favoritos">0</span></a></li>
+        </ul>
+        <form class="d-flex ms-lg-3 mt-2 mt-lg-0" role="search" style="min-width:260px; max-width:340px; width:100%;">
+          <input class="form-control me-2 rounded-pill" type="search" placeholder="Buscar productos" aria-label="Buscar" style="min-width:120px;">
+          <button class="btn btn-outline-primary rounded-pill px-4" type="submit">Buscar</button>
+        </form>
+      </div>
+  </nav>
+
+  <!-- Vitrina horizontal de marcas reconocidas -->
+  <div class="marcas-pasarela-outer marcas-vitrina-global">
+    <div class="marcas-pasarela-wrapper py-2" style="min-height:70px;">
+      <div class="marcas-pasarela d-flex align-items-center gap-4">
+        <img src="images/purina.jpeg" alt="Purina" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/royal.png" alt="Royal Canin" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/pedigree.jpeg" alt="Pedigree" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/hills.png" alt="Hill's" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/whiskas.png" alt="Whiskas" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/euka.png" alt="Eukanuba" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/friskies.png" alt="Friskies" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <!-- Duplicar para efecto infinito -->
+        <img src="images/purina.jpeg" alt="Purina" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/royal.png" alt="Royal Canin" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/pedigree.jpeg" alt="Pedigree" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/hills.png" alt="Hill's" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/whiskas.png" alt="Whiskas" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/euka.png" alt="Eukanuba" style="max-height:48px; max-width:120px; object-fit:contain;">
+        <img src="images/friskies.png" alt="Friskies" style="max-height:48px; max-width:120px; object-fit:contain;">
+      </div>
+    </div>
+    
+  <div class="offcanvas offcanvas-end cuenta-offcanvas-bg" tabindex="-1" id="modalCuenta" aria-labelledby="modalCuentaLabel">
+    <div class="offcanvas-header cuenta-modal-header">
+      <h5 class="offcanvas-title modal-title fw-bold" id="modalCuentaLabel"><i class="bi bi-person-circle me-2"></i>Mi Cuenta</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body cuenta-modal-body p-4">
+      <div class="mb-3 text-center">
+        <div class="text-muted small mb-2">Inicia sesión con tu cuenta PetShop</div>
+      </div>
+      <form id="form-cuenta" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="inputEmail" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control form-control-lg cuenta-input" id="inputEmail" required autocomplete="username">
+          <div class="invalid-feedback">Ingresa un correo válido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="inputPassword" class="form-label">Contraseña</label>
+          <input type="password" class="form-control form-control-lg cuenta-input" id="inputPassword" required autocomplete="current-password">
+          <div class="invalid-feedback">Ingresa tu contraseña.</div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100 shadow cuenta-btn">Iniciar sesión</button>
+        <div class="text-center mt-3">
+          <a href="#" id="link-registrar" class="text-decoration-none">¿No tienes cuenta? <span class="fw-bold text-primary">Regístrate</span></a>
+        </div>
+      </form>
+      <form id="form-registro" style="display:none;" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="inputNombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control form-control-lg cuenta-input" id="inputNombre" required autocomplete="name">
+          <div class="invalid-feedback">Ingresa tu nombre completo.</div>
+        </div>
+        <div class="mb-3">
+          <label for="inputTelefono" class="form-label">Teléfono</label>
+          <input type="tel" class="form-control form-control-lg cuenta-input" id="inputTelefono" pattern="[0-9\-\+\s]{7,}" required autocomplete="tel">
+          <div class="invalid-feedback">Ingresa un teléfono válido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="inputEmailReg" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control form-control-lg cuenta-input" id="inputEmailReg" required autocomplete="username">
+          <div class="invalid-feedback">Ingresa un correo válido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="inputPasswordReg" class="form-label">Contraseña</label>
+          <input type="password" class="form-control form-control-lg cuenta-input" id="inputPasswordReg" required autocomplete="new-password">
+          <div class="invalid-feedback">Ingresa una contraseña.</div>
+        </div>
+        <div class="mb-3">
+          <label for="inputPasswordReg2" class="form-label">Confirmar contraseña</label>
+          <input type="password" class="form-control form-control-lg cuenta-input" id="inputPasswordReg2" required autocomplete="new-password">
+          <div class="invalid-feedback">Las contraseñas no coinciden.</div>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg w-100 shadow cuenta-btn">Registrarse</button>
+        <div class="text-center mt-3">
+          <a href="#" id="link-login" class="text-decoration-none">¿Ya tienes cuenta? <span class="fw-bold text-success">Inicia sesión</span></a>
+        </div>
+      </form>
+      <div class="mt-4 mb-2 text-center">
+        <button type="button" class="btn btn-light w-100 shadow cuenta-btn-google mb-2" id="btn-google-login">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" width="22" class="me-2" style="vertical-align:middle;">Iniciar sesión con Google
+        </button>
+        <div class="text-muted small">o usa Google</div>
+      </div>
+    </div>
+  </div>
+  <style>
+    /* columna lateral de productos sugeridos eliminada */
+    /* Navbar visual mejorado */
+    .navbar-nav .nav-link {
+      transition: background 0.18s, color 0.18s;
+    }
+    .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+      background: linear-gradient(90deg, #e3f0ff 0%, #f8f9fa 100%);
+      color: #0d6efd !important;
+      box-shadow: 0 2px 8px 0 rgba(13,110,253,0.04);
+    }
+    .navbar-nav .badge {
+      font-size: 0.85rem;
+      min-width: 1.5em;
+      min-height: 1.5em;
+      padding: 0.3em 0.5em;
+      border-radius: 1em;
+    }
+    .navbar {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      font-size: 1.08rem;
+    }
+    @media (max-width: 991px) {
+      .navbar-nav .nav-link { text-align: center; margin-bottom: 0.5rem; }
+    }
+    /* Modal Mi Cuenta: fondo degradado y transparencias */
+    .cuenta-modal-bg {
+      background: linear-gradient(135deg, rgba(0,123,255,0.92) 0%, rgba(255,255,255,0.92) 100%);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      border-radius: 1.5rem;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      overflow: hidden;
+    }
+    .cuenta-modal-header {
+      background: linear-gradient(90deg, rgba(0,123,255,0.98) 0%, rgba(0,212,255,0.85) 100%);
+      color: #fff;
+      border-bottom: none;
+      box-shadow: 0 2px 12px 0 rgba(0,123,255,0.10);
+      font-style: italic;
+      border-top-right-radius: 1.5rem;
+    }
+    .cuenta-modal-body {
+      background: rgba(255,255,255,0.75);
+      border-radius: 0 0 1.5rem 1.5rem;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+      font-style: italic;
+    }
+    .cuenta-offcanvas-bg {
+      background: linear-gradient(135deg, rgba(0,123,255,0.92) 0%, rgba(255,255,255,0.92) 100%);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      border-top-left-radius: 1.5rem;
+      border-bottom-left-radius: 1.5rem;
+      border-left: 1.5px solid rgba(255,255,255,0.25);
+      overflow: hidden;
+      max-width: 410px;
+    }
+    .cuenta-btn-google {
+      font-style: normal;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      border: 1.5px solid #b6d4fe;
+      color: #222;
+      background: #fff;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px 0 rgba(0,123,255,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .cuenta-btn-google:hover {
+      background: #f1f3f4;
+      color: #0d6efd;
+      border-color: #0d6efd;
+    }
+    .cuenta-input {
+      background: rgba(255,255,255,0.85);
+      border: 1.5px solid #b6d4fe;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 4px 0 rgba(0,123,255,0.04);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-style: italic;
+    }
+    .cuenta-input:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.15);
+    }
+    .cuenta-btn {
+      border-radius: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px 0 rgba(0,123,255,0.10);
+      transition: background 0.2s, box-shadow 0.2s;
+      font-style: italic;
+    }
+    .cuenta-btn:active {
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+    }
+    .modal-content.cuenta-modal-bg {
+      animation: cuentaFadeIn 0.5s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes cuentaFadeIn {
+      from { opacity: 0; transform: scale(0.98) translateY(30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    /* Mejorar links */
+    #modalCuenta a.text-decoration-none {
+      opacity: 0.85;
+      transition: opacity 0.2s, color 0.2s;
+      font-style: italic;
+    }
+    #modalCuenta a.text-decoration-none:hover {
+      opacity: 1;
+      color: #0d6efd !important;
+    }
+    #modalCuenta label, #modalCuenta .form-label, #modalCuenta .modal-title, #modalCuenta .invalid-feedback, #modalCuenta .valid-feedback {
+      font-style: italic;
+    }
+  </style>
+  <script>
+    // ...existing code...
+    // Modal Mi Cuenta: mostrar/ocultar formularios y validación visual
+    document.getElementById('btn-cuenta').onclick = function(e) {
+      e.preventDefault();
+      const offcanvas = new bootstrap.Offcanvas(document.getElementById('modalCuenta'));
+      document.getElementById('form-cuenta').style.display = '';
+      document.getElementById('form-registro').style.display = 'none';
+      offcanvas.show();
+    };
+    document.getElementById('link-registrar').onclick = function(e) {
+      e.preventDefault();
+      document.getElementById('form-cuenta').style.display = 'none';
+      document.getElementById('form-registro').style.display = '';
+    };
+    document.getElementById('link-login').onclick = function(e) {
+      e.preventDefault();
+      document.getElementById('form-cuenta').style.display = '';
+      document.getElementById('form-registro').style.display = 'none';
+    };
+    // Botón Google Login (solo visual)
+    document.getElementById('btn-google-login').onclick = function(e) {
+      e.preventDefault();
+      alert('Funcionalidad de inicio de sesión con Google solo visual. Aquí se integraría Google Auth real.');
+    };
+    // Validación visual Bootstrap 5
+    (function () {
+      'use strict';
+      var forms = document.querySelectorAll('.needs-validation');
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+    // Simulación de login/registro (solo muestra alertas y validación de contraseñas)
+    document.getElementById('form-cuenta').onsubmit = function(e) {
+      e.preventDefault();
+      if (!this.checkValidity()) return;
+      alert('¡Bienvenido, ' + document.getElementById('inputEmail').value + '! (Simulación de inicio de sesión)');
+      bootstrap.Modal.getInstance(document.getElementById('modalCuenta')).hide();
+      this.classList.remove('was-validated');
+    };
+    document.getElementById('form-registro').onsubmit = function(e) {
+      e.preventDefault();
+      const pass1 = document.getElementById('inputPasswordReg').value;
+      const pass2 = document.getElementById('inputPasswordReg2').value;
+      if (pass1 !== pass2) {
+        document.getElementById('inputPasswordReg2').setCustomValidity('Las contraseñas no coinciden');
+      } else {
+        document.getElementById('inputPasswordReg2').setCustomValidity('');
+      }
+      if (!this.checkValidity()) {
+        this.classList.add('was-validated');
+        return;
+      }
+      alert('¡Registro exitoso para ' + document.getElementById('inputNombre').value + '! (Simulación de registro)');
+      bootstrap.Modal.getInstance(document.getElementById('modalCuenta')).hide();
+      this.classList.remove('was-validated');
+    };
+    // ...existing code...
+  </script>
+        <!-- Eliminado menú repetido de Favoritos, Carrito y Buscar productos -->
+      </div>
+    </div>
+  </nav>
+  <!-- Carrusel de banners de encabezado -->
+  <div id="bannerCarrusel" class="carousel slide w-100 mb-3" data-bs-ride="carousel" data-bs-interval="4000" data-bs-pause="false">
+    <div class="carousel-inner" style="max-height:400px;">
+      <div class="carousel-item active">
+        <img src="images/pet.jpg" alt="Banner 1" class="d-block w-100" style="max-height:400px; object-fit:cover; margin:0; border-radius:0;">
+      </div>
+      <div class="carousel-item">
+        <img src="images/pet2.jpg" alt="Banner 2" class="d-block w-100" style="max-height:400px; object-fit:cover; margin:0; border-radius:0;">
+      </div>
+      <div class="carousel-item">
+        <img src="images/pets.jpg" alt="Banner 3" class="d-block w-100" style="max-height:400px; object-fit:cover; margin:0; border-radius:0;">
+      </div>
+      <div class="carousel-item">
+        <img src="images/petshop.jpg" alt="Banner 4" class="d-block w-100" style="max-height:400px; object-fit:cover; margin:0; border-radius:0;">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarrusel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarrusel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+  </div>
+
+  <!-- Categorías principales -->
+  <section class="container py-4">
+    <h2 class="text-center mb-4">Categorías</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-6 col-md-2 text-center">
+        <a href="#perros" class="text-decoration-none">
+          <img src="images/perro.jpeg" alt="Perros" width="110" height="110" class="rounded-circle shadow">
+          <div class="mt-2 fw-bold">Perros</div>
+        </a>
+      </div>
+      <div class="col-6 col-md-2 text-center">
+        <a href="#gatos" class="text-decoration-none">
+          <img src="images/gatos.jpeg" alt="Gatos" width="110" height="110" class="rounded-circle shadow">
+          <div class="mt-2 fw-bold">Gatos</div>
+        </a>
+      </div>
+      <div class="col-6 col-md-2 text-center">
+        <a href="#aves" class="text-decoration-none">
+          <img src="images/aves.jpeg" alt="Aves" width="110" height="110" class="rounded-circle shadow">
+          <div class="mt-2 fw-bold">Aves</div>
+        </a>
+      </div>
+      <div class="col-6 col-md-2 text-center">
+        <a href="#pequenos" class="text-decoration-none">
+          <img src="images/capibara.jpeg" alt="Pequeños Animales" width="110" height="110" class="rounded-circle shadow">
+          <div class="mt-2 fw-bold">Pequeños Animales</div>
+        </a>
+      </div>
+      <div class="col-6 col-md-2 text-center">
+        <a href="#peces" class="text-decoration-none">
+          <img src="images/peces.jpeg" alt="Peces" width="110" height="110" class="rounded-circle shadow">
+          <div class="mt-2 fw-bold">Peces</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listado de productos (ejemplo) -->
+  <!-- Carrusel de productos -->
+  <section class="container py-4">
+    <h2 class="text-center mb-4">Productos Destacados</h2>
+    <div id="productosCarrusel" class="carousel slide position-relative">
+      <style>
+        /* Flechas manuales fuera del contenedor de productos */
+        .manual-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          background: rgba(0,0,0,0.7);
+          border: none;
+          border-radius: 50%;
+          width: 52px;
+          height: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-size: 2.2rem;
+          font-weight: bold;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+          border: 2px solid #fff;
+          opacity: 0.92;
+          transition: background 0.2s, opacity 0.2s;
+        }
+        .manual-arrow:hover {
+          background: rgba(0,0,0,0.95);
+          opacity: 1;
+        }
+        .manual-arrow-left {
+          left: -30px;
+        }
+        .manual-arrow-right {
+          right: -30px;
+        }
+        @media (max-width: 767px) {
+          .manual-arrow { display: none !important; }
+        }
+        .carousel-inner { position: relative; }
+      </style>
+      <button id="arrowLeft" type="button" class="manual-arrow manual-arrow-left d-none d-md-flex" aria-label="Anterior">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <div class="carousel-inner" id="carousel-inner-js">
+        <!-- Los productos se renderizan por JS -->
+      </div>
+      <button id="arrowRight" type="button" class="manual-arrow manual-arrow-right d-none d-md-flex" aria-label="Siguiente">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- Filtros laterales y marcas (ejemplo visual) -->
+  <section class="container py-4">
+    <div class="row">
+  <style>
+    /* Pasarela de marcas: animación horizontal infinita */
+    .marcas-pasarela-outer.marcas-vitrina-global {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      background: transparent;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
+    }
+    .marcas-pasarela-outer {
+      background: transparent;
+    }
+    .marcas-pasarela-wrapper {
+      overflow: hidden;
+      background: transparent;
+      position: relative;
+      width: 100%;
+    }
+    .marcas-pasarela {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      animation: marcasScroll 18s linear infinite;
+      will-change: transform;
+    }
+    .marcas-pasarela img {
+      filter: grayscale(0.2) contrast(1.1);
+      transition: filter 0.2s;
+      opacity: 0.92;
+    }
+    .marcas-pasarela img:hover {
+      filter: grayscale(0) contrast(1.2) drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+      opacity: 1;
+    }
+    @keyframes marcasScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+      <div class="col-md-9">
+        <!-- Aquí iría el listado de productos filtrados -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white mt-5 py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5>PetShop</h5>
+          <p>Tu tienda online de productos para mascotas. Envíos gratis por compras superiores a $50.</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Contacto</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-geo-alt"></i> Venezuela</li>
+            <li><i class="bi bi-envelope"></i> info@petshop.com</li>
+            <li><i class="bi bi-whatsapp"></i> +58 412 738 7008</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Síguenos</h5>
+          <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white me-2"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <small>Pago 100% seguro 🔒 | &copy; 2025 PetShop | Desarrollado por C4DSTUDIO</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Favoritos -->
+  <div class="modal fade" id="modalFavoritos" tabindex="-1" aria-labelledby="modalFavoritosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFavoritosLabel">Mis Favoritos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="favoritos-lista">
+          <!-- Aquí se mostrarán los productos favoritos -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS y dependencias -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script>
+    // Productos base
+    const productos = [
+      {nombre: 'Alimento Premium para Perros', precio: 42.90, descripcion: 'Nutrición completa para tu mascota.', img: 'images/dogfood.jpeg', categoria: 'perros'},
+      {nombre: 'Arena para Gatos', precio: 15.50, descripcion: 'Absorción y control de olores.', img: 'images/gatarina.jpeg', categoria: 'gatos'},
+      {nombre: 'Jaula para Aves', precio: 29.90, descripcion: 'Espaciosa y segura para aves pequeñas.', img: 'images/jaula.jpeg', categoria: 'aves'},
+      {nombre: 'Acuario para Peces', precio: 55.00, descripcion: 'Ideal para peces tropicales.', img: 'images/pecera.jpeg', categoria: 'peces'},
+      {nombre: 'Juguete para Perros', precio: 8.90, descripcion: 'Resistente y divertido.', img: 'images/mordedor.jpeg', categoria: 'perros'},
+      {nombre: 'Collar para Gatos', precio: 6.50, descripcion: 'Ajustable y cómodo.', img: 'images/collar.jpeg', categoria: 'gatos'},
+      {nombre: 'Snack para Pequeños Animales', precio: 4.20, descripcion: 'Delicioso y saludable.', img: 'images/snacks.jpeg', categoria: 'pequenos'},
+      {nombre: 'Filtro para Acuario', precio: 18.00, descripcion: 'Mantiene el agua limpia y clara.', img: 'images/filtro.jpeg', categoria: 'peces'}
+    ];
+
+   
+  function renderCarrusel(productosFiltrados) {
+    const inner = document.getElementById('carousel-inner-js');
+    inner.innerHTML = '';
+    // Dividir en grupos de 4 productos por slide
+    const grupos = [];
+    for (let i = 0; i < productosFiltrados.length; i += 4) {
+      grupos.push(productosFiltrados.slice(i, i+4));
+    }
+    grupos.forEach((grupo, idx) => {
+      const item = document.createElement('div');
+      item.className = 'carousel-item' + (idx === 0 ? ' active' : '');
+      const row = document.createElement('div');
+      row.className = 'row justify-content-center position-relative align-items-center';
+      grupo.forEach((prod, j) => {
+        const nombreEsc = prod.nombre.replace(/'/g, "&#39;").replace(/"/g, '&quot;');
+        const imgEsc = prod.img.replace(/'/g, "&#39;").replace(/"/g, '&quot;');
+        const isFav = esFavorito(prod.nombre);
+        const col = document.createElement('div');
+        col.className = 'col-12 col-md-3 mb-3';
+        col.innerHTML = `
+          <div class="card h-100">
+            <img src="${imgEsc}" class="card-img-top" alt="${nombreEsc}">
+            <div class="card-body d-flex flex-column justify-content-between" style="min-height: 220px;">
+              <div>
+                <h5 class="card-title">${nombreEsc}</h5>
+                <p class="card-text">${prod.descripcion}</p>
+              </div>
+              <div class="d-flex justify-content-between align-items-end mt-auto">
+                <span class="fw-bold text-primary">$${prod.precio.toFixed(2)}</span>
+                <div>
+                  <button type="button" class="btn btn-success btn-sm me-1" onclick="agregarAlCarritoHandler(event, '${nombreEsc}', ${prod.precio}, '${imgEsc}')">Añadir al carrito</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="toggleFavoritoHandler(event, '${nombreEsc}')">
+                    <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        row.appendChild(col);
+      });
+      item.appendChild(row);
+      inner.appendChild(item);
+    });
+    // Mostrar/ocultar flechas según slide activa
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+    if (arrowLeft && arrowRight) {
+      // Si solo hay un slide, ocultar ambas
+      if (grupos.length <= 1) {
+        arrowLeft.style.display = 'none';
+        arrowRight.style.display = 'none';
+      } else {
+        arrowLeft.style.display = '';
+        arrowRight.style.display = '';
+      }
+    }
+  }
+  // Asignar eventos a las flechas manuales fuera del renderCarrusel
+  document.addEventListener('DOMContentLoaded', function() {
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+    if (arrowLeft) {
+      arrowLeft.onclick = function(e) {
+        e.preventDefault();
+        const carousel = document.getElementById('productosCarrusel');
+        const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carousel);
+        bsCarousel.prev();
+      };
+    }
+    if (arrowRight) {
+      arrowRight.onclick = function(e) {
+        e.preventDefault();
+        const carousel = document.getElementById('productosCarrusel');
+        const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carousel);
+        bsCarousel.next();
+      };
+    }
+  });
+
+    function agregarAlCarritoHandler(e, nombre, precio, img) {
+      e.stopPropagation();
+      agregarAlCarrito(nombre, precio, img);
+    }
+    function toggleFavoritoHandler(e, nombre) {
+      e.stopPropagation();
+      toggleFavorito(nombre);
+    }
+
+
+
+    // Búsqueda de productos
+    document.querySelector('form[role="search"]').onsubmit = function(e) {
+      e.preventDefault();
+      const query = this.querySelector('input[type="search"]').value.trim().toLowerCase();
+      if (!query) {
+        renderCarrusel(productos);
+        return;
+      }
+      const filtrados = productos.filter(p =>
+        p.nombre.toLowerCase().includes(query) ||
+        p.descripcion.toLowerCase().includes(query)
+      );
+      renderCarrusel(filtrados);
+    };
+
+    // Carrito básico
+    function agregarAlCarrito(nombre, precio, img) {
+      let carrito = JSON.parse(localStorage.getItem('carritoPetShop') || '[]');
+      const idx = carrito.findIndex(p => p.nombre === nombre);
+      if (idx >= 0) {
+        carrito[idx].cantidad += 1;
+      } else {
+        carrito.push({nombre, precio, img, cantidad: 1});
+      }
+      localStorage.setItem('carritoPetShop', JSON.stringify(carrito));
+      actualizarBadgeCarrito();
+    }
+    function actualizarBadgeCarrito() {
+      let carrito = JSON.parse(localStorage.getItem('carritoPetShop') || '[]');
+      const badge = document.querySelector('.nav-link.position-relative .badge');
+      if (badge) badge.textContent = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+    }
+
+    // Favoritos
+    function obtenerFavoritos() {
+      return JSON.parse(localStorage.getItem('favoritosPetShop') || '[]');
+    }
+    function guardarFavoritos(favs) {
+      localStorage.setItem('favoritosPetShop', JSON.stringify(favs));
+    }
+    function esFavorito(nombre) {
+      return obtenerFavoritos().includes(nombre);
+    }
+    function toggleFavorito(nombre) {
+      let favs = obtenerFavoritos();
+      if (favs.includes(nombre)) {
+        favs = favs.filter(f => f !== nombre);
+      } else {
+        favs.push(nombre);
+      }
+      guardarFavoritos(favs);
+      renderCarrusel(productos);
+      actualizarBadgeFavoritos();
+    }
+    function actualizarBadgeFavoritos() {
+      const favs = obtenerFavoritos();
+      const badge = document.getElementById('badge-favoritos');
+      if (favs.length > 0) {
+        badge.textContent = favs.length;
+        badge.classList.remove('d-none');
+      } else {
+        badge.classList.add('d-none');
+      }
+    }
+    document.getElementById('btn-favoritos').onclick = function(e) {
+      e.preventDefault();
+      mostrarFavoritosModal();
+    };
+    function mostrarFavoritosModal() {
+      const favs = obtenerFavoritos();
+      const cont = document.getElementById('favoritos-lista');
+      if (favs.length === 0) {
+        cont.innerHTML = '<div class="alert alert-info text-center">No tienes productos favoritos.</div>';
+      } else {
+        const favoritos = productos.filter(p => favs.includes(p.nombre));
+        cont.innerHTML = '<ul class="list-group">' + favoritos.map(p => `
+          <li class="list-group-item d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <img src="${p.img}" alt="${p.nombre}" width="60" height="60" class="rounded-circle me-3 border">
+              <div>
+                <div class="fw-bold">${p.nombre}</div>
+                <div class="text-muted small">${p.descripcion}</div>
+                <span class="fw-bold text-primary">$${p.precio.toFixed(2)}</span>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-success btn-sm me-2" onclick="agregarAlCarrito('${p.nombre}', ${p.precio}, '${p.img}')">Añadir al carrito</button>
+              <button class="btn btn-outline-danger btn-sm" onclick="quitarFavorito('${p.nombre}')"><i class="bi bi-trash"></i> Quitar</button>
+            </div>
+          </li>
+        `).join('') + '</ul>';
+      }
+      const modal = new bootstrap.Modal(document.getElementById('modalFavoritos'));
+      modal.show();
+    }
+    function quitarFavorito(nombre) {
+      let favs = obtenerFavoritos();
+      favs = favs.filter(f => f !== nombre);
+      guardarFavoritos(favs);
+      actualizarBadgeFavoritos();
+      mostrarFavoritosModal();
+    }
+
+    // Filtrado por categoría desde sección de categorías
+    document.addEventListener('DOMContentLoaded', function() {
+      const categorias = [
+        {id: 'perros', nombre: 'perros'},
+        {id: 'gatos', nombre: 'gatos'},
+        {id: 'aves', nombre: 'aves'},
+        {id: 'pequenos', nombre: 'pequenos'},
+        {id: 'peces', nombre: 'peces'}
+      ];
+      categorias.forEach(cat => {
+        // Selecciona todos los enlaces que apunten a la categoría (menú y sección de imágenes)
+        const links = document.querySelectorAll(`a[href="#${cat.id}"]`);
+        links.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const filtrados = productos.filter(p => p.categoria === cat.nombre);
+            renderCarrusel(filtrados);
+            // Scroll a la sección de productos destacados
+            const prodSec = document.getElementById('productosCarrusel');
+            if (prodSec) prodSec.scrollIntoView({behavior:'smooth', block:'start'});
+          });
+        });
+      });
+    });
+    // Inicializar carrusel, badge y productos sugeridos
+    renderCarrusel(productos);
+    actualizarBadgeCarrito();
+    actualizarBadgeFavoritos();
+  </script>
+</body>
+</html>

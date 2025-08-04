@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras - PetShop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" width="40" class="me-2">
+        <span class="fw-bold">PetShop</span>
+      </a>
+      <span class="fs-5">Carrito de Compras</span>
+    </div>
+  </nav>
+
+  <section class="container">
+    <h2 class="mb-4">Tu Carrito</h2>
+    <div id="carrito-vacio" class="alert alert-info text-center d-none">El carrito está vacío.</div>
+    <div id="carrito-lista">
+      <table class="table table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="carrito-items">
+          <!-- Productos del carrito -->
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end">
+        <h4>Total: <span id="carrito-total" class="text-primary">$0.00</span></h4>
+      </div>
+      <hr>
+      <h4 class="mt-4">Datos del Usuario</h4>
+      <form id="form-usuario" class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="col-md-6">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="tel" class="form-control" id="telefono" required>
+        </div>
+        <div class="col-md-6">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input type="text" class="form-control" id="direccion" required>
+        </div>
+        <div class="col-md-6">
+          <label for="metodo-pago" class="form-label">Método de pago</label>
+          <select class="form-select" id="metodo-pago" required onchange="mostrarCamposPago()">
+            <option value="">Selecciona...</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Pago Móvil">Pago Móvil</option>
+          </select>
+        </div>
+        <div class="col-md-6 d-none" id="pago-tarjeta">
+          <label for="num-tarjeta" class="form-label">Número de tarjeta</label>
+          <input type="text" class="form-control" id="num-tarjeta" maxlength="19" placeholder="XXXX XXXX XXXX XXXX">
+          <label for="nombre-tarjeta" class="form-label mt-2">Nombre en la tarjeta</label>
+          <input type="text" class="form-control" id="nombre-tarjeta" placeholder="Como aparece en la tarjeta">
+          <label for="vencimiento-tarjeta" class="form-label mt-2">Vencimiento</label>
+          <input type="text" class="form-control" id="vencimiento-tarjeta" maxlength="5" placeholder="MM/AA">
+          <label for="cvv-tarjeta" class="form-label mt-2">CVV</label>
+          <input type="text" class="form-control" id="cvv-tarjeta" maxlength="4" placeholder="CVV">
+        </div>
+        <div class="col-md-6 d-none" id="pago-transferencia">
+          <label for="banco" class="form-label">Banco</label>
+          <input type="text" class="form-control" id="banco" placeholder="Nombre del banco">
+          <label for="referencia" class="form-label mt-2">N° de referencia</label>
+          <input type="text" class="form-control" id="referencia" placeholder="Número de referencia">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Generar factura PDF</button>
+        </div>
+      </form>
+      <div id="factura-exito" class="alert alert-success d-none">Factura generada correctamente.</div>
+      <div class="d-flex justify-content-end mt-3">
+        <button class="btn btn-danger me-2" id="vaciar-carrito">Vaciar carrito</button>
+        <button class="btn btn-success" id="finalizar-compra">Finalizar compra</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white mt-5 py-4">
+    <div class="container text-center">
+      <small>&copy; 2025 PetShop | Carrito de compras</small>
+    </div>
+  </footer>
+
+  <script>
+    // Funciones básicas para el carrito usando localStorage
+    function obtenerCarrito() {
+      return JSON.parse(localStorage.getItem('carritoPetShop') || '[]');
+    }
+    function guardarCarrito(carrito) {
+      localStorage.setItem('carritoPetShop', JSON.stringify(carrito));
+    }
+    function renderCarrito() {
+      const carrito = obtenerCarrito();
+      const tbody = document.getElementById('carrito-items');
+      const totalSpan = document.getElementById('carrito-total');
+      const vacioAlert = document.getElementById('carrito-vacio');
+      const listaDiv = document.getElementById('carrito-lista');
+      tbody.innerHTML = '';
+      let total = 0;
+      if (carrito.length === 0) {
+        vacioAlert.classList.remove('d-none');
+        listaDiv.classList.add('d-none');
+        return;
+      } else {
+        vacioAlert.classList.add('d-none');
+        listaDiv.classList.remove('d-none');
+      }
+      carrito.forEach((item, idx) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.nombre}</td>
+          <td>$${item.precio.toFixed(2)}</td>
+          <td>
+            <input type="number" min="1" value="${item.cantidad}" class="form-control form-control-sm" style="width:70px" onchange="actualizarCantidad(${idx}, this.value)">
+          </td>
+          <td>$${subtotal.toFixed(2)}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${idx})">Eliminar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      totalSpan.textContent = `$${total.toFixed(2)}`;
+    }
+    function eliminarProducto(idx) {
+      const carrito = obtenerCarrito();
+      carrito.splice(idx, 1);
+      guardarCarrito(carrito);
+      renderCarrito();
+    }
+    function actualizarCantidad(idx, cantidad) {
+      const carrito = obtenerCarrito();
+      carrito[idx].cantidad = Math.max(1, parseInt(cantidad));
+      guardarCarrito(carrito);
+      renderCarrito();
+    }
+    document.getElementById('vaciar-carrito').onclick = function() {
+      guardarCarrito([]);
+      renderCarrito();
+    };
+    document.getElementById('finalizar-compra').onclick = function() {
+      alert('¡Gracias por tu compra!');
+      guardarCarrito([]);
+      renderCarrito();
+    };
+    function mostrarCamposPago() {
+      const metodo = document.getElementById('metodo-pago').value;
+      document.getElementById('pago-tarjeta').classList.add('d-none');
+      document.getElementById('pago-transferencia').classList.add('d-none');
+      if (metodo === 'Tarjeta') {
+        document.getElementById('pago-tarjeta').classList.remove('d-none');
+      } else if (metodo === 'Transferencia') {
+        document.getElementById('pago-transferencia').classList.remove('d-none');
+      }
+    }
+    // Generar factura PDF
+    document.getElementById('form-usuario').onsubmit = function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const email = document.getElementById('email').value;
+      const telefono = document.getElementById('telefono').value;
+      const direccion = document.getElementById('direccion').value;
+      const metodo = document.getElementById('metodo-pago').value;
+      let pagoInfo = '';
+      if (metodo === 'Tarjeta') {
+        pagoInfo = `\nTarjeta: ${document.getElementById('num-tarjeta').value}\nNombre: ${document.getElementById('nombre-tarjeta').value}\nVencimiento: ${document.getElementById('vencimiento-tarjeta').value}\nCVV: ${document.getElementById('cvv-tarjeta').value}`;
+      } else if (metodo === 'Transferencia') {
+        pagoInfo = `\nBanco: ${document.getElementById('banco').value}\nReferencia: ${document.getElementById('referencia').value}`;
+      }
+      const carrito = obtenerCarrito();
+      if (!carrito.length) {
+        alert('El carrito está vacío.');
+        return;
+      }
+      // Generar PDF
+      const doc = new window.jspdf.jsPDF();
+      doc.setFontSize(16);
+      doc.text('Factura PetShop', 20, 20);
+      doc.setFontSize(10);
+      doc.text(`Nombre: ${nombre}`, 20, 30);
+      doc.text(`Email: ${email}`, 20, 36);
+      doc.text(`Teléfono: ${telefono}`, 20, 42);
+      doc.text(`Dirección: ${direccion}`, 20, 48);
+      doc.text(`Método de pago: ${metodo}`, 20, 54);
+      if (pagoInfo) doc.text(pagoInfo, 20, 60);
+      let y = pagoInfo ? 80 : 66;
+      let total = 0;
+      doc.text('Producto', 20, y);
+      doc.text('Precio', 80, y);
+      doc.text('Cantidad', 110, y);
+      doc.text('Subtotal', 150, y);
+      y += 6;
+      carrito.forEach(item => {
+        doc.text(item.nombre, 20, y);
+        doc.text(`$${item.precio.toFixed(2)}`, 80, y);
+        doc.text(`${item.cantidad}`, 110, y);
+        const subtotal = item.precio * item.cantidad;
+        doc.text(`$${subtotal.toFixed(2)}`, 150, y);
+        total += subtotal;
+        y += 6;
+      });
+      doc.text('----------------------------------------', 20, y);
+      y += 6;
+      doc.text(`Total: $${total.toFixed(2)}`, 20, y);
+      doc.save('factura_petshop.pdf');
+      document.getElementById('factura-exito').classList.remove('d-none');
+      setTimeout(() => document.getElementById('factura-exito').classList.add('d-none'), 3000);
+    };
+    renderCarrito();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
